@@ -40,7 +40,7 @@ public class Order {
     @Column(name = "delivery_country_code", nullable = false, columnDefinition = "CHAR(2)")
     private String deliveryCountryCode;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false, precision = 12, scale = 2)
     private BigDecimal totalAmount;
 
     @JdbcTypeCode(SqlTypes.CHAR)
