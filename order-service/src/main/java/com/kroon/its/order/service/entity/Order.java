@@ -17,14 +17,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(
-        name = "orders",
-        indexes = {
-                @Index(name = "idx_orders_customer_id", columnList = "customer_id"),
-                @Index(name = "idx_orders_status", columnList = "status"),
-                @Index(name = "idx_orders_created_at", columnList = "created_at DESC")
-        }
-)
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -47,7 +40,7 @@ public class Order {
     @Column(name = "delivery_country_code", nullable = false, columnDefinition = "CHAR(2)")
     private String deliveryCountryCode;
 
-    @Column(name = "total_amount", nullable = false, precision = 12, scale = 2)
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
     @JdbcTypeCode(SqlTypes.CHAR)
@@ -57,6 +50,7 @@ public class Order {
     @Column(name = "eta_minutes")
     private Integer etaMinutes;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 40)
     private OrderStatus status = OrderStatus.NEW;
@@ -71,6 +65,7 @@ public class Order {
     @Column(name = "version", nullable = false)
     private Long version;
 
+    @Builder.Default
     @OneToMany(
             mappedBy = "order",
             cascade = CascadeType.ALL,

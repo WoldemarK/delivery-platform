@@ -12,18 +12,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(
-        name = "order_items",
-        indexes = {
-                @Index(name = "idx_order_items_order_id", columnList = "order_id")
-        },
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uq_order_items_order_position",
-                        columnNames = {"order_id", "position"}
-                )
-        }
-)
+@Table(name = "order_items")
 public class OrderItem {
 
     @Id
@@ -31,11 +20,7 @@ public class OrderItem {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "order_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_order_items_order")
-    )
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @Column(name = "item_name", nullable = false, length = 255)
@@ -44,7 +29,7 @@ public class OrderItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "unit_price", nullable = false, precision = 12, scale = 2)
+    @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
 
     @Column(name = "position", nullable = false)
