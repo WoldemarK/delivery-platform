@@ -15,7 +15,7 @@
 
     <groupId>com.kroon.its</groupId>
     <artifactId>delivery-platform</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>

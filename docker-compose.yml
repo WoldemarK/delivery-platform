@@ -1,0 +1,114 @@
+services:
+
+  postgres-order:
+    image: postgres:17-alpine
+    container_name: order-service-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: order
+      POSTGRES_DB: order_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_order:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U order -d order_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network
+
+  postgres-delivery:
+    image: postgres:17-alpine
+    container_name: delivery-service-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: delivery
+      POSTGRES_PASSWORD: delivery
+      POSTGRES_DB: delivery_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_delivery:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U delivery -d delivery_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network
+
+  postgres-delivery-db:
+    image: postgres:17-alpine
+    container_name: delivery-service-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: delivery
+      POSTGRES_PASSWORD: delivery
+      POSTGRES_DB: delivery_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data_delivery:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U delivery -d delivery_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network
+
+  kafka:
+    image: apache/kafka:4.0.0
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+    environment:
+      # KRaft
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      # Controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      # Listeners
+      KAFKA_LISTENERS: INTERNAL://:9092,EXTERNAL://:29092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      # Single broker
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # Topics
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      # Development
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS:
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - network
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DYNAMIC_CONFIG_ENABLED: "false"
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+
+volumes:
+  kafka_data:
+  postgres_data_order:
+  postgres_data_delivery:
+
+networks:
+  network:
+    driver: bridge
