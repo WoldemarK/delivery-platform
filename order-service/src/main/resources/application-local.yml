@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/order_db
-    username: ${POSTGRES_USER_ORDER}
-    password: ${POSTGRES_PASSWORD_ORDER}
+    url: ${POSTGRES_URL_ORDER:jdbc:postgresql://localhost:5432/order_db}
+    username: ${POSTGRES_USER_ORDER:order}
+    password: ${POSTGRES_PASSWORD_ORDER:order}
     driver-class-name: org.postgresql.Driver
+
