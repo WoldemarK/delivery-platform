@@ -21,6 +21,7 @@
     <modules>
         <module>order-service</module>
         <module>delivery-service</module>
+        <module>catalog-service</module>
     </modules>
 
     <properties>

@@ -29,11 +29,31 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_DELIVERY}
       POSTGRES_DB: delivery_db
     ports:
-      - "5433:5432"
+      - "5434:5432"
     volumes:
       - postgres_data_delivery:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network
+
+  postgres-catalog:
+    image: postgres:17-alpine
+    container_name: catalog-service-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER_CATALOG}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_CATALOG}
+      POSTGRES_DB: catalog_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_catalog:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -88,8 +108,8 @@ services:
 volumes:
   kafka_data:
   postgres_data_order:
+  postgres_data_catalog:
   postgres_data_delivery:
-
 networks:
   network:
     driver: bridge
