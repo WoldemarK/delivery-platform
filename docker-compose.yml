@@ -29,7 +29,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_DELIVERY}
       POSTGRES_DB: delivery_db
     ports:
-      - "5434:5432"
+      - "5433:5432"
     volumes:
       - postgres_data_delivery:/var/lib/postgresql/data
     healthcheck:
@@ -49,7 +49,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_CATALOG}
       POSTGRES_DB: catalog_db
     ports:
-      - "5433:5432"
+      - "5434:5432"
     volumes:
       - postgres_data_catalog:/var/lib/postgresql/data
     healthcheck:

@@ -10,13 +10,12 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Setter
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
-public class Products {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,17 +24,17 @@ public class Products {
     @Column(name = "name", length = 200, nullable = false)
     private String name;
 
-    @Column(name = "description", length = 200, nullable = false)
+    @Column(name = "description", length = 2000)
     private String description;
 
     @Column(name = "price", nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(name = "currency", nullable = false, columnDefinition = "CHAR(2)")
+    @Column(name = "currency", nullable = false, columnDefinition = "CHAR(3)", updatable = false)
     private String currency;
 
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private Boolean active;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -63,5 +62,15 @@ public class Products {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = Instant.now();
+    }
+
+    public void updateDetails(String name, String description, Boolean active) {
+        this.name = name;
+        this.description = description;
+        this.active = active;
+    }
+
+    public void updatePrice(BigDecimal newPrice) {
+        this.price = newPrice;
     }
 }
