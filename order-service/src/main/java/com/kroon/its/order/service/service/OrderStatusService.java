@@ -7,12 +7,15 @@ import com.kroon.its.order.service.entity.OrderStatusHistory;
 import com.kroon.its.order.service.exception.OrderNotFoundException;
 import com.kroon.its.order.service.repository.OrderRepository;
 import com.kroon.its.order.service.repository.OrderStatusHistoryRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderStatusService {
@@ -22,7 +25,10 @@ public class OrderStatusService {
 
 
     @Transactional
-    public void changeStatus(ChangeOrderStatusRequest request) {
+    public void changeStatus(@Valid ChangeOrderStatusRequest request
+    ) {
+        log.info("Change order status request: {}", request);
+
         Order order = findById(request.orderId());
 
         OrderStatus previousStatus = order.getStatus();
@@ -44,16 +50,23 @@ public class OrderStatusService {
         orderStatusHistoryRepository.save(history);
     }
 
-    private Order findById(UUID orderId) {
+    private Order findById(UUID orderId
+    ) {
+        log.info("Find order by id {}", orderId);
+
         return orderRepository.findById(orderId)
                 .orElseThrow(() ->
                         new OrderNotFoundException(orderId));
     }
 
-    private OrderStatusHistory buildOrderStatusHistory(Order order, ChangeOrderStatusRequest request,
-                                                       OrderStatus previousStatus) {
+    private OrderStatusHistory buildOrderStatusHistory(Order order,
+                                                       ChangeOrderStatusRequest request,
+                                                       OrderStatus previousStatus
+    ) {
+        log.info("Build order status history for order id {}", order.getId());
+
         return OrderStatusHistory.builder()
-                .orderId(request.orderId())
+                .orderId(order.getId())
                 .previousStatus(previousStatus)
                 .newStatus(request.newStatus())
                 .source(request.source())
