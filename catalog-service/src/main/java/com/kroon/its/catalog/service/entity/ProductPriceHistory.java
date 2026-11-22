@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Setter
 @Getter
 @Builder
 @NoArgsConstructor
@@ -22,9 +21,9 @@ public class ProductPriceHistory {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    public Products productId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Column(name = "old_price", nullable = false, precision = 12, scale = 2)
     private BigDecimal oldPrice;
@@ -33,7 +32,13 @@ public class ProductPriceHistory {
     private BigDecimal newPrice;
 
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(name = "currency", nullable = false, columnDefinition = "CHAR(2)")
+    @Column(
+            name = "currency",
+            nullable = false,
+            columnDefinition = "CHAR(3)",
+            updatable = false,
+            length = 3
+    )
     private String currency;
 
     @Column(
