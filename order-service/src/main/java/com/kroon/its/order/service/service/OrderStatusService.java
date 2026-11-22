@@ -7,12 +7,16 @@ import com.kroon.its.order.service.entity.OrderStatusHistory;
 import com.kroon.its.order.service.exception.OrderNotFoundException;
 import com.kroon.its.order.service.repository.OrderRepository;
 import com.kroon.its.order.service.repository.OrderStatusHistoryRepository;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderStatusService {
@@ -22,8 +26,13 @@ public class OrderStatusService {
 
 
     @Transactional
-    public void changeStatus(ChangeOrderStatusRequest request) {
-        Order order = findById(request.orderId());
+    public void changeStatus(@Validated ChangeOrderStatusRequest request
+    ) {
+        log.info("Change order status request: {}", request);
+
+        Order order = orderRepository.findById(request.orderId())
+                .orElseThrow(() ->
+                        new OrderNotFoundException(request.orderId()));
 
         OrderStatus previousStatus = order.getStatus();
 
@@ -34,26 +43,8 @@ public class OrderStatusService {
 
         orderRepository.save(order);
 
-        OrderStatusHistory history = buildOrderStatusHistory
-                (
-                        order,
-                        request,
-                        previousStatus
-                );
-
-        orderStatusHistoryRepository.save(history);
-    }
-
-    private Order findById(UUID orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() ->
-                        new OrderNotFoundException(orderId));
-    }
-
-    private OrderStatusHistory buildOrderStatusHistory(Order order, ChangeOrderStatusRequest request,
-                                                       OrderStatus previousStatus) {
-        return OrderStatusHistory.builder()
-                .orderId(request.orderId())
+        var history = OrderStatusHistory.builder()
+                .orderId(order.getId())
                 .previousStatus(previousStatus)
                 .newStatus(request.newStatus())
                 .source(request.source())
@@ -62,6 +53,7 @@ public class OrderStatusService {
                 .sagaId(request.sagaId())
                 .changedBy(request.changedBy())
                 .build();
+        orderStatusHistoryRepository.save(history);
     }
 }
 
