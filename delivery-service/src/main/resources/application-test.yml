@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${POSTGRES_TEST_URL_DELIVERY:jdbc:postgresql://localhost:5434/delivery_test_db}
+    username: ${POSTGRES_TEST_USER_DELIVERY}
+    password: ${POSTGRES_TEST_PASSWORD_DELIVERY}
+    driver-class-name: org.postgresql.Driver
