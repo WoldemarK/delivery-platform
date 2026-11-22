@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 public class OrderStatusService {
 
@@ -26,7 +27,7 @@ public class OrderStatusService {
 
 
     @Transactional
-    public void changeStatus(@Validated ChangeOrderStatusRequest request
+    public void changeStatus(ChangeOrderStatusRequest request
     ) {
         log.info("Change order status request: {}", request);
 
@@ -53,7 +54,6 @@ public class OrderStatusService {
                 .sagaId(request.sagaId())
                 .changedBy(request.changedBy())
                 .build();
-        orderStatusHistoryRepository.save(history);
     }
 }
 
