@@ -29,7 +29,12 @@ public class OrderStatusService {
     @Transactional
     public void changeStatus(ChangeOrderStatusRequest request
     ) {
-        log.info("Change order status request: {}", request);
+        log.info(
+                "Changing order status: orderId={}, newStatus={}, source={}",
+                request.orderId(),
+                request.newStatus(),
+                request.source()
+        );
 
         Order order = orderRepository.findById(request.orderId())
                 .orElseThrow(() ->
