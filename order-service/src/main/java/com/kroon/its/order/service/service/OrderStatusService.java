@@ -54,7 +54,6 @@ public class OrderStatusService {
                 .sagaId(request.sagaId())
                 .changedBy(request.changedBy())
                 .build();
-        orderStatusHistoryRepository.save(history);
     }
 }
 
