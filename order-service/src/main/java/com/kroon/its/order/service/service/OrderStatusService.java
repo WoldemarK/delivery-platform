@@ -8,6 +8,7 @@ import com.kroon.its.order.service.exception.OrderNotFoundException;
 import com.kroon.its.order.service.repository.OrderRepository;
 import com.kroon.its.order.service.repository.OrderStatusHistoryRepository;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class OrderStatusService {
 
 
     @Transactional
-    public void changeStatus(ChangeOrderStatusRequest request
+    public void changeStatus(@Valid ChangeOrderStatusRequest request
     ) {
         log.info(
                 "Changing order status: orderId={}, newStatus={}, source={}",
