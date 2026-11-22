@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.UUID;
+
 
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 public class OrderStatusService {
 
@@ -26,7 +27,7 @@ public class OrderStatusService {
 
 
     @Transactional
-    public void changeStatus(@Validated ChangeOrderStatusRequest request
+    public void changeStatus(ChangeOrderStatusRequest request
     ) {
         log.info("Change order status request: {}", request);
 
