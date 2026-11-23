@@ -29,12 +29,14 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductResponse createProduct(CreateProductRequest request
     ) {
-        log.info("Creating product with name: {}",
-                request.name()
-        );
         Objects.requireNonNull(request,
                 "CreateProductRequest must not be null"
         );
+
+        log.info("Creating product with name: {}",
+                request.name()
+        );
+
         Product product = ProductMapper.toProduct(request);
         Product saved = productRepository.save(product);
         log.info("Product successfully created with id: {}", saved.getId());
@@ -57,6 +59,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ProductResponse> getProducts(Boolean active,
                                              Pageable pageable
     ) {
