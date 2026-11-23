@@ -1,5 +1,6 @@
 package com.kroon.its.catalog.service.mapper;
 
+import com.kroon.its.catalog.service.dto.CreateProductRequest;
 import com.kroon.its.catalog.service.dto.PriceQuoteItemResponse;
 import com.kroon.its.catalog.service.dto.ProductResponse;
 import com.kroon.its.catalog.service.entity.Product;
@@ -60,5 +61,17 @@ public final class ProductMapper {
         return products.stream()
                 .map(ProductMapper::toPriceQuoteItemResponse)
                 .toList();
+    }
+
+    public static Product toProduct(CreateProductRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return Product.builder()
+                .name(request.name())
+                .description(request.description())
+                .price(request.price())
+                .currency(request.currency())
+                .build();
     }
 }

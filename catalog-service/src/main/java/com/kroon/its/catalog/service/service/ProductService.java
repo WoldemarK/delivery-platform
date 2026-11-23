@@ -1,12 +1,18 @@
 package com.kroon.its.catalog.service.service;
 
-import com.kroon.its.catalog.service.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.kroon.its.catalog.service.dto.CreateProductRequest;
+import com.kroon.its.catalog.service.dto.ProductResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@Service
-@RequiredArgsConstructor
-public class ProductService {
+import java.util.UUID;
 
-    private final ProductRepository productRepository;
+public interface ProductService {
+
+    ProductResponse createProduct(CreateProductRequest request);
+
+    ProductResponse getProductById(UUID id);
+
+    Page<ProductResponse> getProducts(Boolean active,
+                                      Pageable pageable);
 }
