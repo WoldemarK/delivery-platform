@@ -12,7 +12,8 @@ import java.util.UUID;
 @Repository
 public interface ProductPriceHistoryRepository extends JpaRepository<ProductPriceHistory, UUID> {
 
-    Page<ProductPriceHistory> findAllByProductIdOrderByChangedAtDesc(UUID productId,
-                                                                     Pageable pageable);
-    List<ProductPriceHistory> findAllByProductIdOrderByChangedAtDesc(UUID productId);
+    Page<ProductPriceHistory> findAllByProductIdOrderByChangedAtDescIdDesc(
+            UUID productId,
+            Pageable pageable
+    );
 }
