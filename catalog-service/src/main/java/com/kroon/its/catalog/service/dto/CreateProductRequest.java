@@ -11,7 +11,6 @@ public record CreateProductRequest
                 @NotBlank(message = "Name is required")
                 String name,
 
-                @NotBlank(message = "Description is required")
                 String description,
 
 

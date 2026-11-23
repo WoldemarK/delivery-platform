@@ -8,7 +8,7 @@ public record UpdateProductPriceRequest
         (
                 @NotNull(message = "Price is required")
                 @DecimalMin(
-                        value = "0.01",
+                        value = "0.00",
                         message = "Price must be greater than zero"
                 )
                 @Digits(

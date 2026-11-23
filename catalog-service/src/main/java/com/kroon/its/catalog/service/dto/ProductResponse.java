@@ -14,11 +14,11 @@ public record ProductResponse
                 @NotBlank
                 String name,
 
-                @NotBlank
+
                 String description,
 
                 @NotNull
-                @DecimalMin("0.01")
+                @DecimalMin("0.00")
                 @Digits(integer = 10, fraction = 2)
                 BigDecimal price,
 
@@ -26,7 +26,7 @@ public record ProductResponse
                 @Pattern(regexp = "^[A-Z]{3}$")
                 String currency,
 
-                boolean active,
+                Boolean active,
 
                 @NotNull
                 Instant createdAt,
