@@ -29,10 +29,10 @@ public final class ProductMapper {
                 .build();
     }
 
-    public static List<ProductResponse> toResponse(List<Product> products
+    public static List<ProductResponse> toResponseList(List<Product> products
     ) {
         if (products == null) {
-            return null;
+            return List.of();
         }
         return products.stream()
                 .map(ProductMapper::toResponse)
