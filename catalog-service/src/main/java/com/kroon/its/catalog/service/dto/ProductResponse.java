@@ -14,11 +14,10 @@ public record ProductResponse
                 @NotBlank
                 String name,
 
-                @NotBlank
                 String description,
 
                 @NotNull
-                @DecimalMin("0.01")
+                @DecimalMin("0.00")
                 @Digits(integer = 10, fraction = 2)
                 BigDecimal price,
 
@@ -31,6 +30,7 @@ public record ProductResponse
                 @NotNull
                 Instant createdAt,
 
+                @NotNull
                 Instant updatedAt,
 
                 @NotNull
