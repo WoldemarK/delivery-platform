@@ -3,7 +3,9 @@ package com.kroon.its.catalog.service.dto;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
+@Builder
 public record UpdateProductRequest
         (
                 @Size(min = 1, max = 200,

@@ -9,10 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.Set;
 import java.util.UUID;
-
 
 public interface ProductRestController {
 
