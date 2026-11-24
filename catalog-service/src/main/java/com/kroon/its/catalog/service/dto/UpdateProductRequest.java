@@ -18,6 +18,8 @@ public record UpdateProductRequest
                         message = "Description must not exceed 2000 characters")
                 String description,
 
-                Boolean active
+                Boolean active,
+
+                boolean descriptionProvided
         ) {
 }

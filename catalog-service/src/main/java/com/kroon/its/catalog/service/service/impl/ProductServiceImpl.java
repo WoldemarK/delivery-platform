@@ -2,6 +2,7 @@ package com.kroon.its.catalog.service.service.impl;
 
 import com.kroon.its.catalog.service.dto.CreateProductRequest;
 import com.kroon.its.catalog.service.dto.ProductResponse;
+import com.kroon.its.catalog.service.dto.UpdateProductRequest;
 import com.kroon.its.catalog.service.entity.Product;
 import com.kroon.its.catalog.service.exception.ProductNotFoundException;
 import com.kroon.its.catalog.service.mapper.ProductMapper;
@@ -81,6 +82,29 @@ public class ProductServiceImpl implements ProductService {
                 products.getTotalPages()
         );
         return products.map(ProductMapper::toResponse);
+
+    }
+
+    @Override
+    @Transactional
+    public ProductResponse updateProduct(UUID id, UpdateProductRequest request
+    ) {
+        Objects.requireNonNull(request, "UpdateProductRequest must not be null");
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+
+        product.updateDetails(request.name(),
+                request.description(),
+                request.descriptionProvided(),
+                request.active()
+        );
+
+        Product saved = productRepository.save(product);
+
+        log.info("Product successfully updated with id: {}", id);
+
+        return ProductMapper.toResponse(saved);
 
     }
 }

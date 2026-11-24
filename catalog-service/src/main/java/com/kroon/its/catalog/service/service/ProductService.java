@@ -2,6 +2,7 @@ package com.kroon.its.catalog.service.service;
 
 import com.kroon.its.catalog.service.dto.CreateProductRequest;
 import com.kroon.its.catalog.service.dto.ProductResponse;
+import com.kroon.its.catalog.service.dto.UpdateProductRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,6 +14,8 @@ public interface ProductService {
 
     ProductResponse getProductById(UUID id);
 
-    Page<ProductResponse> getProducts(Boolean active,
-                                      Pageable pageable);
+    Page<ProductResponse> getProducts(Boolean active, Pageable pageable);
+
+    ProductResponse updateProduct(UUID id, UpdateProductRequest request);
+
 }

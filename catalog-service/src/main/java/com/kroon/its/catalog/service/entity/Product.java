@@ -67,4 +67,22 @@ public class Product {
     public void updatePrice(BigDecimal newPrice) {
         this.price = newPrice;
     }
+
+    public void updateDetails(String name,
+                              String description,
+                              boolean descriptionProvided,
+                              Boolean active
+    ) {
+        if (name != null) {
+            this.name = name;
+        }
+
+        if (descriptionProvided) {
+            this.description = description;
+        }
+
+        if (active != null) {
+            this.active = active;
+        }
+    }
 }

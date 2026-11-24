@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,64 +29,45 @@ public class ProductPriceServiceImpl implements ProductPriceService {
     private final ProductRepository productRepository;
     private final ProductPriceHistoryRepository productPriceHistoryRepository;
 
-    @Transactional
-    public ProductResponse updateProductById(UUID id, UpdateProductRequest request
-    ) {
-
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
-        log.info("Updating product with id {}", id);
-
-        Product updatedProduct = Product.builder()
-                .createdAt(product.getCreatedAt())
-                .name(request.name())
-                .description(request.description())
-                .active(request.active())
-                .build();
-
-        Product saved = productRepository.save(updatedProduct);
-        log.info("Product with id {} successfully updated", id);
-
-        ProductPriceHistory history = ProductPriceHistory.builder()
-                .product(saved)
-                .oldPrice(product.getPrice())
-                .newPrice(saved.getPrice())
-                .currency(saved.getCurrency())
-                .changedAt(product.getCreatedAt())
-                .build();
-        productPriceHistoryRepository.save(history);
-
-        return ProductMapper.toResponse(saved);
-    }
-
+    @Override
     @Transactional
     public ProductResponse updateProductPrice(UUID id, UpdateProductPriceRequest request
     ) {
+        Objects.requireNonNull(request,
+                "UpdateProductPriceRequest must not be null");
+
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
-        log.info("Updating price for product with id {}", id);
+        BigDecimal oldPrice = product.getPrice();
+        BigDecimal newPrice = request.price();
 
-        Product updatedProduct = Product.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .active(product.getActive())
-                .createdAt(product.getCreatedAt())
-                .price(request.price())
-                .build();
+        if (oldPrice.compareTo(newPrice) == 0) {
+            log.info("Product {} price has not changed", id);
+            return ProductMapper.toResponse(product);
+        }
 
-        Product saved = productRepository.save(updatedProduct);
+        product.updatePrice(newPrice);
 
-        log.info("Product with id {} successfully updated. New price: {}",
-                id, saved.getPrice());
+        Product saved = productRepository.save(product);
+
         ProductPriceHistory history = ProductPriceHistory.builder()
-
-                .oldPrice(product.getPrice())
-                .newPrice(saved.getPrice())
-                .changedAt(product.getCreatedAt())
+                .product(saved)
+                .oldPrice(oldPrice)
+                .newPrice(newPrice)
+                .currency(saved.getCurrency())
                 .build();
+
         productPriceHistoryRepository.save(history);
+
+        log.info(
+                "Product {} price changed from {} to {} {}",
+                id,
+                oldPrice,
+                newPrice,
+                saved.getCurrency()
+        );
+
         return ProductMapper.toResponse(saved);
     }
 }
