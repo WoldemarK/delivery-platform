@@ -1,19 +1,20 @@
 package com.kroon.its.catalog.service.exception;
 
-import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 400 — ошибки валидации
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex,
                                                                    HttpServletRequest request
@@ -25,24 +26,34 @@ public class GlobalExceptionHandler {
                 .findFirst()
                 .orElse("Validation failed");
 
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                message,
+                request
+        );
+    }
+
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            MethodArgumentTypeMismatchException.class,
+            MissingServletRequestParameterException.class,
+            HttpMessageNotReadableException.class
+    })
+    public ResponseEntity<ErrorResponse> handleBadRequest(Exception ex, HttpServletRequest request
+    ) {
+        String message = ex instanceof IllegalArgumentException
+                ? ex.getMessage()
+                : "Invalid request parameters or request body";
+
         return buildResponse(HttpStatus.BAD_REQUEST, message, request);
     }
 
-    // 400 — некорректные параметры
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequest(IllegalArgumentException ex, HttpServletRequest request
-    ) {
-        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
-    }
-
-    // 404 — продукт не найден
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ProductNotFoundException ex, HttpServletRequest request
     ) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
 
-    // 500 — непредвиденные ошибки
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleInternalError(Exception ex, HttpServletRequest request
     ) {
