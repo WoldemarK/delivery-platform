@@ -56,7 +56,6 @@ public class ProductPriceServiceImpl implements ProductPriceService {
                 .oldPrice(oldPrice)
                 .newPrice(newPrice)
                 .currency(saved.getCurrency())
-                .changedBy(saved.getName())
                 .build();
 
         productPriceHistoryRepository.save(history);

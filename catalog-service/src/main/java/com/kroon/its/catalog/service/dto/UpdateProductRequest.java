@@ -10,11 +10,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 public class UpdateProductRequest {
 
-
-    @Setter
     @Size(min = 1, max = 200,
             message = "Name must be between 1 and 200 characters")
     @Pattern(regexp = ".*\\S.*",
@@ -28,7 +25,6 @@ public class UpdateProductRequest {
     private Boolean active;
 
     private boolean descriptionProvided;
-
 
     @JsonSetter("description")
     public void setDescription(String description) {
