@@ -4,7 +4,6 @@ package com.kroon.its.catalog.service.dto;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
