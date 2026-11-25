@@ -2,7 +2,6 @@ package com.kroon.its.catalog.service.service.impl;
 
 import com.kroon.its.catalog.service.dto.ProductResponse;
 import com.kroon.its.catalog.service.dto.UpdateProductPriceRequest;
-import com.kroon.its.catalog.service.dto.UpdateProductRequest;
 import com.kroon.its.catalog.service.entity.Product;
 import com.kroon.its.catalog.service.entity.ProductPriceHistory;
 import com.kroon.its.catalog.service.exception.ProductNotFoundException;
@@ -12,13 +11,11 @@ import com.kroon.its.catalog.service.repository.ProductRepository;
 import com.kroon.its.catalog.service.service.ProductPriceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
