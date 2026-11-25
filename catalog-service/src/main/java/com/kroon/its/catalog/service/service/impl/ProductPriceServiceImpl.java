@@ -49,13 +49,14 @@ public class ProductPriceServiceImpl implements ProductPriceService {
 
         product.updatePrice(newPrice);
 
-        Product saved = productRepository.save(product);
+        Product saved = productRepository.saveAndFlush(product);
 
         ProductPriceHistory history = ProductPriceHistory.builder()
                 .product(saved)
                 .oldPrice(oldPrice)
                 .newPrice(newPrice)
                 .currency(saved.getCurrency())
+                .changedBy(saved.getName())
                 .build();
 
         productPriceHistoryRepository.save(history);

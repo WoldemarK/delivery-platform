@@ -91,16 +91,20 @@ public class ProductServiceImpl implements ProductService {
     ) {
         Objects.requireNonNull(request, "UpdateProductRequest must not be null");
 
+        if (request.getName() == null && !request.isDescriptionProvided() && request.getActive() == null
+        ) {
+            throw new IllegalArgumentException("At least one product field must be provided");
+        }
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
-        product.updateDetails(request.name(),
-                request.description(),
-                request.descriptionProvided(),
-                request.active()
+        product.updateDetails(request.getName(),
+                request.getDescription(),
+                request.isDescriptionProvided(),
+                request.getActive()
         );
 
-        Product saved = productRepository.save(product);
+        Product saved = productRepository.saveAndFlush(product);
 
         log.info("Product successfully updated with id: {}", id);
 
