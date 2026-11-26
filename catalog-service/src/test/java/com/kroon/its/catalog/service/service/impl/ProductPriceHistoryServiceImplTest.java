@@ -34,29 +34,6 @@ class ProductPriceHistoryServiceImplTest {
     private ProductPriceHistoryServiceImpl service;
 
     @Test
-    void getPriceHistory_shouldReturnPriceHistory_whenProductExists() {
-
-        var productId = UUID.randomUUID();
-        Pageable pageable = PageRequest.of(0, 10);
-
-        var history = new ProductPriceHistory();
-        Page<ProductPriceHistory> historyPage = new PageImpl<>(List.of(history), pageable, 1);
-
-        when(productRepository.existsById(productId)).thenReturn(true);
-        when(priceHistoryRepository.findAllByProductIdOrderByChangedAtDescIdDesc(productId, pageable))
-                .thenReturn(historyPage);
-
-        Page<ProductPriceHistoryResponse> result = service.getPriceHistory(productId, pageable);
-
-        assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
-        assertEquals(1, result.getContent().size());
-
-        verify(productRepository).existsById(productId);
-        verify(priceHistoryRepository).findAllByProductIdOrderByChangedAtDescIdDesc(productId, pageable);
-    }
-
-    @Test
     void getPriceHistory_shouldReturnEmptyPage_whenHistoryDoesNotExist() {
 
         var productId = UUID.randomUUID();
@@ -104,5 +81,52 @@ class ProductPriceHistoryServiceImplTest {
         service.getPriceHistory(productId, pageable);
 
         verify(priceHistoryRepository).findAllByProductIdOrderByChangedAtDescIdDesc(eq(productId), eq(pageable));
+    }
+    @Test
+    void getPriceHistory_shouldReturnPriceHistory_whenProductExists() {
+        var productId = UUID.randomUUID();
+        var historyId = UUID.randomUUID();
+        var changedAt = java.time.Instant.parse("2026-11-26T08:00:00Z");
+        var oldPrice = new java.math.BigDecimal("100.00");
+        var newPrice = new java.math.BigDecimal("120.00");
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        var history = ProductPriceHistory.builder()
+                .id(historyId)
+                .oldPrice(oldPrice)
+                .newPrice(newPrice)
+                .currency("EUR")
+                .changedAt(changedAt)
+                .changedBy("admin")
+                .build();
+
+        Page<ProductPriceHistory> historyPage =
+                new PageImpl<>(List.of(history), pageable, 1);
+
+        when(productRepository.existsById(productId)).thenReturn(true);
+        when(priceHistoryRepository.findAllByProductIdOrderByChangedAtDescIdDesc(
+                productId, pageable
+        )).thenReturn(historyPage);
+
+        Page<ProductPriceHistoryResponse> result =
+                service.getPriceHistory(productId, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals(1, result.getContent().size());
+
+        ProductPriceHistoryResponse response = result.getContent().get(0);
+
+        assertEquals(historyId, response.id());
+        assertEquals(oldPrice, response.oldPrice());
+        assertEquals(newPrice, response.newPrice());
+        assertEquals("EUR", response.currency());
+        assertEquals(changedAt, response.changedAt());
+        assertEquals("admin", response.changedBy());
+
+        verify(productRepository).existsById(productId);
+        verify(priceHistoryRepository)
+                .findAllByProductIdOrderByChangedAtDescIdDesc(productId, pageable);
     }
 }
