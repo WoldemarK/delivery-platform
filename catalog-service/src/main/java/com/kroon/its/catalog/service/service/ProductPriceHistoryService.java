@@ -1,6 +1,6 @@
 package com.kroon.its.catalog.service.service;
 
-import com.kroon.its.catalog.service.dto.ProductPriceHistoryResponse;
+import com.kroon.its.common.dto.catalog.ProductPriceHistoryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

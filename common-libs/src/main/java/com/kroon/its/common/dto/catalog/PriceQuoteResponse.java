@@ -1,4 +1,4 @@
-package com.kroon.its.catalog.service.dto;
+package com.kroon.its.common.dto.catalog;
 
 import java.util.List;
 

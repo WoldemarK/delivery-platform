@@ -19,11 +19,6 @@
     <description>catalog-service</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.kroon.its</groupId>
-            <artifactId>common-libs</artifactId>
-            <version>1.0.0</version>
-        </dependency>
         <!-- Spring Boot Core -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -83,6 +78,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.kroon.its</groupId>
             <artifactId>common-libs</artifactId>

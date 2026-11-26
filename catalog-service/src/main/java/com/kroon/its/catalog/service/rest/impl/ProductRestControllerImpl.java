@@ -1,7 +1,7 @@
 package com.kroon.its.catalog.service.rest.impl;
 
-import com.kroon.its.catalog.service.dto.CreateProductRequest;
-import com.kroon.its.catalog.service.dto.ProductResponse;
+import com.kroon.its.common.dto.catalog.CreateProductRequest;
+import com.kroon.its.common.dto.catalog.ProductResponse;
 import com.kroon.its.catalog.service.rest.ProductRestController;
 import com.kroon.its.catalog.service.service.ProductService;
 import jakarta.validation.Valid;

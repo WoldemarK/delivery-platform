@@ -1,13 +1,12 @@
 package com.kroon.its.order.service.service;
 
-
+import com.kroon.its.order.service.dto.ChangeOrderStatusRequest;
 import com.kroon.its.order.service.entity.Order;
 import com.kroon.its.order.service.entity.OrderStatus;
 import com.kroon.its.order.service.entity.OrderStatusHistory;
 import com.kroon.its.order.service.exception.OrderNotFoundException;
 import com.kroon.its.order.service.repository.OrderRepository;
 import com.kroon.its.order.service.repository.OrderStatusHistoryRepository;
-import com.kroon.its.order.service.dto.ChangeOrderStatusRequest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

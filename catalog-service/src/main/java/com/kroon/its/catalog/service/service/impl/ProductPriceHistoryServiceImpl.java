@@ -1,6 +1,6 @@
 package com.kroon.its.catalog.service.service.impl;
 
-import com.kroon.its.catalog.service.dto.ProductPriceHistoryResponse;
+import com.kroon.its.common.dto.catalog.ProductPriceHistoryResponse;
 import com.kroon.its.catalog.service.service.ProductPriceHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

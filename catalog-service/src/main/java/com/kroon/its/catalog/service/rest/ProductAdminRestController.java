@@ -1,8 +1,8 @@
 package com.kroon.its.catalog.service.rest;
 
-import com.kroon.its.catalog.service.dto.ProductResponse;
-import com.kroon.its.catalog.service.dto.UpdateProductPriceRequest;
-import com.kroon.its.catalog.service.dto.UpdateProductRequest;
+import com.kroon.its.common.dto.catalog.ProductResponse;
+import com.kroon.its.common.dto.catalog.UpdateProductPriceRequest;
+import com.kroon.its.common.dto.catalog.UpdateProductRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;

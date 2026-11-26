@@ -1,8 +1,8 @@
 package com.kroon.its.catalog.service.mapper;
 
-import com.kroon.its.catalog.service.dto.CreateProductRequest;
-import com.kroon.its.catalog.service.dto.PriceQuoteItemResponse;
-import com.kroon.its.catalog.service.dto.ProductResponse;
+import com.kroon.its.common.dto.catalog.CreateProductRequest;
+import com.kroon.its.common.dto.catalog.PriceQuoteItemResponse;
+import com.kroon.its.common.dto.catalog.ProductResponse;
 import com.kroon.its.catalog.service.entity.Product;
 
 import java.util.List;

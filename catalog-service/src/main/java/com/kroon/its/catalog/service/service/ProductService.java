@@ -1,8 +1,8 @@
 package com.kroon.its.catalog.service.service;
 
-import com.kroon.its.catalog.service.dto.CreateProductRequest;
-import com.kroon.its.catalog.service.dto.ProductResponse;
-import com.kroon.its.catalog.service.dto.UpdateProductRequest;
+import com.kroon.its.common.dto.catalog.CreateProductRequest;
+import com.kroon.its.common.dto.catalog.ProductResponse;
+import com.kroon.its.common.dto.catalog.UpdateProductRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

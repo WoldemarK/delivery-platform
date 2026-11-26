@@ -1,14 +1,13 @@
 package com.kroon.its.catalog.service.rest.impl;
 
-import com.kroon.its.catalog.service.dto.ProductResponse;
-import com.kroon.its.catalog.service.dto.UpdateProductPriceRequest;
-import com.kroon.its.catalog.service.dto.UpdateProductRequest;
+import com.kroon.its.common.dto.catalog.ProductResponse;
+import com.kroon.its.common.dto.catalog.UpdateProductPriceRequest;
+import com.kroon.its.common.dto.catalog.UpdateProductRequest;
 import com.kroon.its.catalog.service.rest.ProductAdminRestController;
 import com.kroon.its.catalog.service.service.ProductPriceService;
 import com.kroon.its.catalog.service.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
