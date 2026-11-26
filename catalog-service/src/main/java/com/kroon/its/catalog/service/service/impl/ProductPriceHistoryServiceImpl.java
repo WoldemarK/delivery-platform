@@ -1,6 +1,5 @@
 package com.kroon.its.catalog.service.service.impl;
 
-import com.kroon.its.catalog.service.entity.ProductPriceHistory;
 import com.kroon.its.catalog.service.exception.ProductNotFoundException;
 import com.kroon.its.catalog.service.mapper.ProductMapper;
 import com.kroon.its.catalog.service.repository.ProductPriceHistoryRepository;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -22,6 +22,7 @@ public class ProductPriceHistoryServiceImpl implements ProductPriceHistoryServic
     private final ProductPriceHistoryRepository priceHistoryRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ProductPriceHistoryResponse> getPriceHistory(UUID productId, Pageable pageable
     ) {
 
