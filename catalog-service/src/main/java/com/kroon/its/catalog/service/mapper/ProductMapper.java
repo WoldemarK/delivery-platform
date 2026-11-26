@@ -1,7 +1,9 @@
 package com.kroon.its.catalog.service.mapper;
 
+import com.kroon.its.catalog.service.entity.ProductPriceHistory;
 import com.kroon.its.common.dto.catalog.CreateProductRequest;
 import com.kroon.its.common.dto.catalog.PriceQuoteItemResponse;
+import com.kroon.its.common.dto.catalog.ProductPriceHistoryResponse;
 import com.kroon.its.common.dto.catalog.ProductResponse;
 import com.kroon.its.catalog.service.entity.Product;
 
@@ -73,5 +75,18 @@ public final class ProductMapper {
                 .price(request.price())
                 .currency(request.currency())
                 .build();
+    }
+
+    public static ProductPriceHistoryResponse toProductPriceHistoryResponse(
+            ProductPriceHistory history
+    ) {
+        return new ProductPriceHistoryResponse(
+                history.getId(),
+                history.getOldPrice(),
+                history.getNewPrice(),
+                history.getCurrency(),
+                history.getChangedAt(),
+                history.getChangedBy()
+        );
     }
 }
